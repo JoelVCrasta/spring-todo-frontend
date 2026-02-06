@@ -9,6 +9,7 @@ import {
   Plus,
 } from "lucide-react";
 import IconButton from "./IconButton";
+import MenuHeader from "./MenuHeader";
 
 interface SideBarContentItemProps {
   title: string;
@@ -30,23 +31,14 @@ const SideBar = () => {
   return (
     <aside className="h-screen bg-accent-primary transition-all w-72">
       <div className="p-4">
-        <SideBarHeader />
+        <MenuHeader
+          title="Menu"
+          icon={<Menu size={24} />}
+          onToggle={() => console.log("Toggle sidebar")}
+        />
         <SideBarContent />
       </div>
     </aside>
-  );
-};
-
-const SideBarHeader = () => {
-  return (
-    <div className="flex items-center justify-between">
-      <h2 className="font-bold text-2xl text-foreground">Menu</h2>
-
-      <IconButton
-        icon={<Menu size={24} />}
-        onClick={() => console.log("Toggle sidebar")}
-      />
-    </div>
   );
 };
 
