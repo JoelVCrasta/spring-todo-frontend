@@ -1,3 +1,4 @@
+import AddTodoModal from "./AddTodoModal";
 import SideBar from "./Sidebar";
 import TodoBox from "./TodoBox";
 
@@ -6,6 +7,7 @@ const DashBoard = () => {
     <section className="flex bg-background h-screen">
       <SideBar />
       <TodoBox />
+      <AddTodoModal />
     </section>
   );
 };
