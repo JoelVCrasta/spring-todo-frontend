@@ -11,6 +11,11 @@ import {
 import IconButton from "./IconButton";
 import MenuHeader from "./MenuHeader";
 
+interface SideBarProps {
+  isOpen: boolean;
+  toggleSidebar: () => void;
+}
+
 interface SideBarContentItemProps {
   title: string;
   icon: React.ReactNode;
@@ -27,16 +32,24 @@ const dummyCollections = [
   { title: "Shopping", color: "red" },
 ];
 
-const SideBar = () => {
+const SideBar = ({ isOpen, toggleSidebar }: SideBarProps) => {
   return (
-    <aside className="h-screen bg-accent-primary transition-all w-72">
+    <aside
+      className={`h-screen pt-3 ${isOpen ? "bg-accent-primary" : "bg-transparent"} transition-all w-${isOpen ? "72" : "20"}`}
+    >
       <div className="p-4">
-        <MenuHeader
-          title="Menu"
-          icon={<Menu size={24} />}
-          onToggle={() => console.log("Toggle sidebar")}
-        />
-        <SideBarContent />
+        {isOpen ? (
+          <>
+            <MenuHeader
+              title="Menu"
+              icon={<Menu size={24} />}
+              onToggle={toggleSidebar}
+            />
+            <SideBarContent />
+          </>
+        ) : (
+          <IconButton icon={<Menu size={24} />} onClick={toggleSidebar} />
+        )}
       </div>
     </aside>
   );
