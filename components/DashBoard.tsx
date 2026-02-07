@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import AddTodoModal from "./AddTodoModal";
-import SideBar from "./Sidebar";
+import SideBar from "./sidebar";
 import TodoBox from "./TodoBox";
 
 const DashBoard = () => {
