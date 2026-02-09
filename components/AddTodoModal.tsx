@@ -5,6 +5,8 @@ import MenuHeader from "./MenuHeader";
 import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast, Toaster } from "sonner";
+import useCollectionStore from "@/app/hooks/useCollectionStore";
+import { useState } from "react";
 
 type FormValues = {
   title: string;
@@ -16,18 +18,30 @@ type FormValues = {
 
 const AddTodoModal = () => {
   const { isOpen, closeModal } = useTodoModal();
+  const collections = useCollectionStore((state) => state.collections);
+  const [hasDueDate, setHasDueDate] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
-  const { register, handleSubmit, reset } = useForm<FormValues>({
+  const { register, handleSubmit, reset, setValue } = useForm<FormValues>({
     defaultValues: {
       title: "",
       description: "",
-      dueDate: today,
+      dueDate: "",
       completed: false,
     },
   });
 
   if (!isOpen) return null;
+
+  const toggleDueDate = (enabled: boolean) => {
+    setHasDueDate(enabled);
+
+    if (!enabled) {
+      setValue("dueDate", "");
+    } else {
+      setValue("dueDate", today);
+    }
+  };
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
@@ -52,30 +66,42 @@ const AddTodoModal = () => {
               {...register("title")}
               type="text"
               placeholder="Title"
-              className="w-full px-3 py-2 border border-accent-light rounded-md focus:outline-none focus:ring-2 focus:ring-accent-secondary transition-colors duration-200"
+              className="w-full px-3 py-2 border border-highlight rounded-md focus:outline-none focus:ring-2 focus:ring-accent-secondary transition-colors duration-200"
             />
 
             <textarea
               {...register("description")}
               placeholder="Description"
-              className="w-full px-3 py-2 border border-accent-light rounded-md focus:outline-none focus:ring-2 focus:ring-accent-secondary transition-colors duration-200"
+              className="w-full px-3 py-2 border border-highlight rounded-md focus:outline-none focus:ring-2 focus:ring-accent-secondary transition-colors duration-200"
             />
 
-            <input
-              {...register("dueDate")}
-              type="date"
-              min={today}
-              className="w-full px-3 py-2 border border-accent-light rounded-md focus:outline-none focus:ring-2 focus:ring-accent-secondary transition-colors duration-200"
-            />
+            <div className="flex items-center w-full px-3 border border-highlight rounded-md focus:outline-none focus:ring-2 focus:ring-accent-secondary transition-colors duration-200">
+              <input
+                type="checkbox"
+                checked={hasDueDate}
+                onChange={(e) => toggleDueDate(e.target.checked)}
+                className="w-6 h-5 "
+              />
+
+              <input
+                {...register("dueDate")}
+                type="date"
+                min={today}
+                disabled={!hasDueDate}
+                className="w-full px-1 py-2 disabled:opacity-60"
+              />
+            </div>
 
             <select
               {...register("collectionId")}
-              className="w-full px-3 py-2 border border-accent-light rounded-md focus:outline-none focus:ring-2 focus:ring-accent-secondary transition-colors duration-200"
+              className="w-full px-3 py-2 border border-highlight rounded-md focus:outline-none focus:ring-2 focus:ring-accent-secondary transition-colors duration-200"
             >
-              <option value="">Collection</option>
-              <option value="1">Work</option>
-              <option value="2">Personal</option>
-              <option value="3">Shopping</option>
+              <option value="">Select Collection</option>
+              {collections.map((collection) => (
+                <option key={collection.id} value={collection.id}>
+                  {collection.collectionName}
+                </option>
+              ))}
             </select>
           </div>
 

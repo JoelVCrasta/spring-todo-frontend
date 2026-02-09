@@ -1,9 +1,7 @@
-import DashBoard from "@/components/DashBoard";
-
 export default function Home() {
   return (
     <div>
-      <DashBoard />
+      <p>Home</p>
     </div>
   );
 }

@@ -14,26 +14,19 @@ import Circle from "@uiw/react-color-circle";
 import { colorHexMap, colorMap } from "@/utils/colorMap";
 import SideBarItem from "./SideBarItem";
 import SideBarCollection from "./SideBarCollection";
+import useCollectionStore from "@/app/hooks/useCollectionStore";
 
-interface Collection {
-  title: string;
-  color: string;
-}
+const DEFAULT_HEX = "#9ca3af"; // default to gray
 
-interface SideBarContentProps {
-  collections: Collection[];
-  setCollections: Dispatch<SetStateAction<Collection[]>>;
-}
-
-const SideBarContent = ({
-  collections,
-  setCollections,
-}: SideBarContentProps) => {
+const SideBarContent = () => {
   const [isAddCollectionOpen, setIsAddCollectionOpen] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState("");
   const collectionInputRef = useRef<HTMLInputElement>(null);
 
-  const [hex, setHex] = useState("#9ca3af"); // default to gray
+  const collections = useCollectionStore((state) => state.collections);
+  const addCollection = useCollectionStore((state) => state.addCollection);
+
+  const [hex, setHex] = useState(DEFAULT_HEX);
   const colorHexClass = colorHexMap[hex];
   const colorClass = colorMap[colorHexClass];
 
@@ -47,17 +40,18 @@ const SideBarContent = ({
     }
   }, [isAddCollectionOpen]);
 
-  const handleAddCollection = () => {
+  const handleAddCollection = async () => {
     if (newCollectionName.trim() === "") return;
 
-    const newCollection: Collection = {
-      title: newCollectionName,
-      color: colorHexClass,
+    const newCollection = {
+      collectionName: newCollectionName.trim(),
+      collectionColor: colorHexClass,
     };
 
-    setCollections([...collections, newCollection]);
+    await addCollection(newCollection);
+
     setNewCollectionName("");
-    setHex("#9ca3af");
+    setHex(DEFAULT_HEX);
     toggleAddCollection();
   };
 
@@ -87,9 +81,9 @@ const SideBarContent = ({
         <div className="flex flex-col my-2">
           {collections.map((collection) => (
             <SideBarCollection
-              key={collection.title}
-              title={collection.title}
-              collectionColor={collection.color}
+              key={collection.id}
+              title={collection.collectionName}
+              collectionColor={collection.collectionColor}
             />
           ))}
 
@@ -107,7 +101,7 @@ const SideBarContent = ({
               }}
             >
               <div className="flex items-center gap-2">
-                <div className={`${colorClass} w-2.5 h-2.5 rounded-full`} />
+                <div className={`${colorClass} w-4 h-3 rounded-sm`} />
                 <input
                   type="text"
                   placeholder="New Collection"

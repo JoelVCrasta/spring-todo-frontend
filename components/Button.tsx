@@ -10,7 +10,7 @@ const Button = ({ title, icon, onClick, type = "solid" }: ButtonProps) => {
     <button
       onClick={onClick}
       className={`flex items-center gap-2 px-3 rounded-md transition-colors duration-200 hover:bg-accent-secondary ${
-        type === "outline" ? "border border-accent-light" : "bg-accent-primary"
+        type === "outline" ? "border border-highlight" : "bg-accent-primary"
       }`}
     >
       <div className="text-gray-400">{icon}</div>

@@ -1,7 +1,4 @@
-"use client";
-
 import { Menu } from "lucide-react";
-import { useState } from "react";
 import IconButton from "../IconButton";
 import MenuHeader from "../MenuHeader";
 import SideBarContent from "./SideBarContent";
@@ -12,12 +9,6 @@ interface SideBarProps {
 }
 
 const SideBar = ({ isOpen, toggleSidebar }: SideBarProps) => {
-  const [collections, setCollections] = useState([
-    { title: "Work", color: "blue" },
-    { title: "Personal", color: "green" },
-    { title: "Shopping", color: "red" },
-  ]);
-
   return (
     <aside
       className={`h-screen pt-3 transition-width duration-200 ${isOpen ? "bg-accent-primary w-80" : "bg-transparent w-20"}`}
@@ -30,10 +21,7 @@ const SideBar = ({ isOpen, toggleSidebar }: SideBarProps) => {
               icon={<Menu size={24} />}
               onToggle={toggleSidebar}
             />
-            <SideBarContent
-              collections={collections}
-              setCollections={setCollections}
-            />
+            <SideBarContent />
           </>
         ) : (
           <IconButton icon={<Menu size={24} />} onClick={toggleSidebar} />
