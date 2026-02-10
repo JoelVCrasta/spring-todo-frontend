@@ -8,12 +8,13 @@ import {
   ListTodo,
   Plus,
 } from "lucide-react";
-import { useState, Dispatch, SetStateAction, useRef, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
 import IconButton from "../IconButton";
 import Circle from "@uiw/react-color-circle";
 import { colorHexMap, colorMap } from "@/utils/colorMap";
 import SideBarItem from "./SideBarItem";
-import SideBarCollection from "./SideBarCollection";
+import SideBarCollectionItem from "./SideBarCollectionItem";
 import useCollectionStore from "@/app/hooks/useCollectionStore";
 
 const DEFAULT_HEX = "#9ca3af"; // default to gray
@@ -29,6 +30,9 @@ const SideBarContent = () => {
   const [hex, setHex] = useState(DEFAULT_HEX);
   const colorHexClass = colorHexMap[hex];
   const colorClass = colorMap[colorHexClass];
+
+  const searchParams = useSearchParams();
+  const currentView = searchParams.get("view") || "all";
 
   const toggleAddCollection = () => {
     setIsAddCollectionOpen((prev) => !prev);
@@ -61,15 +65,31 @@ const SideBarContent = () => {
       <div>
         <p className="font-bold text-sm text-foreground">TASK</p>
 
-        <div className="flex flex-col my-2">
-          <SideBarItem title="All Tasks" icon={<ListTodo size={18} />} />
-          <SideBarItem title="Upcoming" icon={<ChevronsRight size={18} />} />
-          <SideBarItem title="Today" icon={<BookOpen size={18} />} />
-          <SideBarItem title="Completed" icon={<Check size={18} />} />
+        <div className="flex flex-col my-2 gap-1">
+          <SideBarItem
+            title="All Tasks"
+            icon={<ListTodo size={18} />}
+            href={"?view=all"}
+          />
+          <SideBarItem
+            title="Upcoming"
+            icon={<ChevronsRight size={18} />}
+            href={"?view=upcoming"}
+          />
+          <SideBarItem
+            title="Today"
+            icon={<BookOpen size={18} />}
+            href={"?view=today"}
+          />
+          <SideBarItem
+            title="Completed"
+            icon={<Check size={18} />}
+            href={"?view=completed"}
+          />
         </div>
       </div>
 
-      <hr className="my-4 border-gray-700" />
+      <hr className="my-4 border-accent-secondary" />
 
       {/* collections */}
       <div>
@@ -78,10 +98,11 @@ const SideBarContent = () => {
           <IconButton icon={<Plus size={20} />} onClick={toggleAddCollection} />
         </div>
 
-        <div className="flex flex-col my-2">
+        <div className="flex flex-col my-2 gap-1">
           {collections.map((collection) => (
-            <SideBarCollection
+            <SideBarCollectionItem
               key={collection.id}
+              id={collection.id}
               title={collection.collectionName}
               collectionColor={collection.collectionColor}
             />

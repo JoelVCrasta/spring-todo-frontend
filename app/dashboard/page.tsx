@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import AddTodoModal from "@/components/AddTodoModal";
 import SideBar from "@/components/sidebar";
-import TodoBox from "@/components/TodoBox";
+import TodoBox from "@/components/todobox";
 import useCollectionStore from "../hooks/useCollectionStore";
 
 const DashBoard = () => {
