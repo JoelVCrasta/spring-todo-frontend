@@ -18,16 +18,22 @@ const TodoContent = ({ todos, isCollectionView }: TodoContentProps) => {
 
   return (
     <div>
-      <div className="grid gap-4 mt-4">
-        {todos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            title={todo.title}
-            dueDate={todo.dueDate}
-            isCompleted={todo.completed}
-            collectionId={todo.collectionId}
-            isCollectionView={isCollectionView}
-          />
+      <div className="grid gap-2 mt-4">
+        {todos.map((todo, idx) => (
+          <div key={todo.id}>
+            <TodoItem
+              id={todo.id}
+              title={todo.title}
+              dueDate={todo.dueDate}
+              isCompleted={todo.completed}
+              collectionId={todo.collectionId}
+              isCollectionView={isCollectionView}
+            />
+
+            {idx < todos.length - 1 && (
+              <hr className="text-accent-secondary mt-2" />
+            )}
+          </div>
         ))}
       </div>
     </div>

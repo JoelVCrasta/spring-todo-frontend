@@ -20,15 +20,10 @@ const TodoBoxHeader = ({
   collectionId,
 }: TodoBoxHeaderProps) => {
   const { openModal } = useTodoModal();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const deleteCollection = useCollectionStore(
     (state) => state.deleteCollection,
   );
   const router = useRouter();
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
   const handleDeleteCollection = async () => {
     if (!collectionId) {
