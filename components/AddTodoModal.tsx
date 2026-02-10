@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast, Toaster } from "sonner";
 import useCollectionStore from "@/app/hooks/useCollectionStore";
 import { useState } from "react";
+import axios from "axios";
 
 type FormValues = {
   title: string;
@@ -19,6 +20,9 @@ type FormValues = {
 const AddTodoModal = () => {
   const { isOpen, closeModal } = useTodoModal();
   const collections = useCollectionStore((state) => state.collections);
+  const fetchCollections = useCollectionStore(
+    (state) => state.fetchCollections,
+  );
   const [hasDueDate, setHasDueDate] = useState(false);
 
   const today = new Date().toISOString().split("T")[0];
@@ -43,8 +47,33 @@ const AddTodoModal = () => {
     }
   };
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     console.log(data);
+
+    if (data.title.trim() === "") {
+      toast.error("Title is required");
+      return;
+    }
+
+    if (data.collectionId === "") {
+      toast.error("Please select a collection");
+      return;
+    }
+
+    const newTodo = {
+      title: data.title.trim(),
+      description: data.description.trim(),
+      dueDate: hasDueDate ? data.dueDate : null,
+      completed: false,
+    };
+
+    const response = await axios.post(
+      `/api/todos/${data.collectionId}`,
+      newTodo,
+    );
+    console.log(response.data);
+
+    await fetchCollections();
 
     reset();
     closeModal();
