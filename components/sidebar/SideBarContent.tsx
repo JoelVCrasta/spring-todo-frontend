@@ -8,7 +8,7 @@ import {
   ListTodo,
   Plus,
 } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import IconButton from "../IconButton";
 import Circle from "@uiw/react-color-circle";
@@ -31,8 +31,7 @@ const SideBarContent = () => {
   const colorHexClass = colorHexMap[hex];
   const colorClass = colorMap[colorHexClass];
 
-  const searchParams = useSearchParams();
-  const currentView = searchParams.get("view") || "all";
+  const router = useRouter();
 
   const toggleAddCollection = () => {
     setIsAddCollectionOpen((prev) => !prev);
@@ -52,7 +51,9 @@ const SideBarContent = () => {
       collectionColor: colorHexClass,
     };
 
-    await addCollection(newCollection);
+    const id = await addCollection(newCollection);
+
+    router.push(`/dashboard?view=collection&id=${id}`);
 
     setNewCollectionName("");
     setHex(DEFAULT_HEX);
@@ -105,6 +106,9 @@ const SideBarContent = () => {
               id={collection.id}
               title={collection.collectionName}
               collectionColor={collection.collectionColor}
+              todoCount={
+                collection.todos.filter((todo) => !todo.completed).length
+              }
             />
           ))}
 
