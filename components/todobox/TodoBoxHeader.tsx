@@ -1,30 +1,11 @@
-"use client";
-
-import { Plus } from "lucide-react";
-import Button from "./Button";
 import useTodoModal from "@/app/hooks/useTodoModal";
-
-interface TodoBoxProps {}
+import { Plus } from "lucide-react";
+import Button from "@/components/Button";
 
 interface TodoBoxHeaderProps {
   title: string;
   todoCount: number;
 }
-
-interface TodoItemProps {
-  title: string;
-  description?: string;
-  dueDate?: Date;
-  isCompleted: boolean;
-}
-
-const TodoBox = ({}) => {
-  return (
-    <div className="w-full px-4">
-      <TodoBoxHeader title="Today" todoCount={5} />
-    </div>
-  );
-};
 
 const TodoBoxHeader = ({ title, todoCount }: TodoBoxHeaderProps) => {
   const { openModal } = useTodoModal();
@@ -34,7 +15,7 @@ const TodoBoxHeader = ({ title, todoCount }: TodoBoxHeaderProps) => {
       <div className="flex items-center justify-between gap-6">
         <h2 className="text-5xl font-bold text-foreground">{title}</h2>
 
-        <div className="flex items-center border border-highlight rounded-lg px-3 py-1">
+        <div className="flex items-center border border-accent-secondary rounded-lg px-3 py-1">
           <p className="text-3xl font-medium text-foreground">{todoCount}</p>
         </div>
       </div>
@@ -49,11 +30,4 @@ const TodoBoxHeader = ({ title, todoCount }: TodoBoxHeaderProps) => {
   );
 };
 
-const TodoItem = ({
-  title,
-  description,
-  dueDate,
-  isCompleted,
-}: TodoItemProps) => {};
-
-export default TodoBox;
+export default TodoBoxHeader;
