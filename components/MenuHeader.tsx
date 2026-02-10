@@ -1,5 +1,4 @@
 import IconButton from "./IconButton";
-import { Menu } from "lucide-react";
 
 interface MenuHeaderProps {
   title?: string;
