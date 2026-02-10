@@ -63,7 +63,11 @@ const TodoBox = () => {
 
   return (
     <div className="w-full px-4">
-      <TodoBoxHeader title={title} todoCount={todos.length} />
+      <TodoBoxHeader
+        title={title}
+        todoCount={todos.filter((todo) => !todo.completed).length}
+        collectionId={collectionId!}
+      />
       <TodoContent todos={todos} isCollectionView={view === "collection"} />
     </div>
   );
