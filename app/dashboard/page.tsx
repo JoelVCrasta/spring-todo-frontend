@@ -5,6 +5,7 @@ import AddTodoModal from "@/components/AddTodoModal";
 import SideBar from "@/components/sidebar";
 import TodoBox from "@/components/todobox";
 import useCollectionStore from "../hooks/useCollectionStore";
+import EditMenu from "@/components/editmenu";
 
 const DashBoard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -25,6 +26,7 @@ const DashBoard = () => {
       <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <TodoBox />
       <AddTodoModal />
+      <EditMenu />
     </section>
   );
 };

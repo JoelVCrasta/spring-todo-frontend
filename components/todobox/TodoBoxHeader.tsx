@@ -27,7 +27,7 @@ const TodoBoxHeader = ({
 
   const handleDeleteCollection = async () => {
     if (!collectionId) {
-      toast.error("No collection selected");
+      toast.error("Collection not found");
       return;
     }
 
@@ -50,15 +50,15 @@ const TodoBoxHeader = ({
 
       <div className="flex items-center gap-2">
         <Button
-          title="Add Todo"
+          title={"Add Todo"}
           icon={<Plus size={18} />}
-          type="outline"
+          variant={"outline"}
           onClick={() => openModal()}
         />
 
         {collectionId && (
           <Button
-            type="outline"
+            variant={"outline"}
             icon={<Trash size={18} />}
             onClick={handleDeleteCollection}
           />

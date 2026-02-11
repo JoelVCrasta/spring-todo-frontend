@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { Calendar, ChevronRight } from "lucide-react";
 import useCollectionStore from "@/app/hooks/useCollectionStore";
 import { colorMap } from "@/utils/colorMap";
 import axios from "axios";
 import { toast } from "sonner";
+import useEditMenu from "@/app/hooks/useEditMenu";
 
 interface TodoItemProps {
   id: string;
@@ -26,6 +26,7 @@ const TodoItem = ({
     state.collections.find((col) => col.id === collectionId),
   );
   const toggleTodoState = useCollectionStore((state) => state.toggleTodoState);
+  const { isOpen, openMenu } = useEditMenu();
 
   const collectionColor = collection ? collection.collectionColor : "gray";
   const color = colorMap[collectionColor];
@@ -58,6 +59,7 @@ const TodoItem = ({
 
   return (
     <div
+      onClick={() => openMenu(id)}
       className={`px-4 py-3 flex items-center rounded-md hover:bg-accent-secondary cursor-pointer transition-colors duration-300 `}
     >
       <div>
