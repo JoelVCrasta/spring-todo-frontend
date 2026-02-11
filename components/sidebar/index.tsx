@@ -11,7 +11,7 @@ interface SideBarProps {
 const SideBar = ({ isOpen, toggleSidebar }: SideBarProps) => {
   return (
     <aside
-      className={`h-screen pt-3 transition-width duration-200 ${isOpen ? "bg-accent-primary w-96" : "bg-transparent w-20"}`}
+      className={`h-screen pt-3 transition-width duration-200 ${isOpen ? "bg-accent-primary min-w-80" : "bg-transparent min-w-20"}`}
     >
       <div className="p-4">
         {isOpen ? (
